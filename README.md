@@ -157,6 +157,8 @@ GPT-5 Nano was added to the Airia project as the agent's reasoning model:
 }
 ```
 
+> *Swap this for a real captured response from your run — recruiters react much better to an actual screenshot/JSON output than a schema. See "Next steps" below.*
+
 ---
 
 ## Tech Stack
@@ -189,3 +191,23 @@ GPT-5 Nano was added to the Airia project as the agent's reasoning model:
 - Capture and publish a real end-to-end run (screenshot of the attack, the generated alert, and Airia's actual response) for stronger proof in the portfolio.
 
 ---
+
+## Credits
+
+Lab concept, AI agent setup, and SOC playbook structure inspired by Royden Rebello's tutorial *"Let's build an AI SOC Analyst from scratch"* (The Social Dork). All scripting, VM setup, and testing in this repo were carried out independently in my own home lab.
+
+---
+
+## Repo Structure
+
+```
+ai-soc-homelab/
+├── README.md
+├── soc_capture.py
+├── requirements.txt
+├── .env.example
+├── .gitignore
+├── LICENSE
+└── docs/
+    └── soc_playbook.txt
+```

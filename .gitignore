@@ -1,0 +1,18 @@
+# Secrets
+.env
+
+# Captured artifacts (generated at runtime, not part of source)
+*.pcap
+traffic.csv
+alert.json
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
