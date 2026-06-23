@@ -128,8 +128,6 @@ GPT-5 Nano was added to the Airia project as the agent's reasoning model:
 }
 ```
 
-> *Swap this for a real captured response from your run — recruiters react much better to an actual screenshot/JSON output than a schema. See "Next steps" below.*
-
 ---
 
 ## Tech Stack
