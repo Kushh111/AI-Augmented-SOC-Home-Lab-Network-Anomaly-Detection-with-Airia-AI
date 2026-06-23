@@ -43,6 +43,7 @@ A separate VM used to generate traffic for the lab to react to. For this run, a 
 - Counts packets per source IP and flags any IP that crosses a threshold (40 packets in this run)
 - Builds a structured JSON alert (alert ID, source IP, destination host/IP, packet count, time window)
 - Sends the alert to Airia's Agent Execution API via a `POST` request, authenticated with an API key header
+- API URL/key and capture settings are loaded from environment variables (`.env`), not hardcoded — keeps secrets out of the committed code
 
 ### 4. AI Agent — Airia.ai
 - **Platform:** [airia.ai](https://airia.ai) — a no-code AI agent orchestration platform
@@ -85,6 +86,34 @@ GPT-5 Nano was added to the Airia project as the agent's reasoning model:
 5. The script converts the capture → CSV → counts packets per IP → builds a JSON alert once the threshold is crossed → sends it to Airia.
 6. The Airia agent runs the alert through the playbook and returns a structured JSON triage report.
 7. The response is printed back to the internal server's console for review.
+
+---
+
+## Getting Started
+
+1. **Set up two VMs** on the same network — one as the attacker, one as the victim/internal server.
+2. On the victim VM, install `tshark` and Python 3, then clone this repo and install dependencies:
+   ```bash
+   sudo apt install tshark python3-pip
+   git clone <your-repo-url>
+   cd ai-soc-homelab
+   pip install -r requirements.txt
+   ```
+3. **Build your own Airia agent**: sign up at [airia.ai](https://airia.ai), create a project, add a model (GPT-5 Nano or similar), paste in `docs/soc_playbook.txt` as the agent's instructions, then publish it to get an API endpoint and key.
+4. Configure your environment:
+   ```bash
+   cp .env.example .env
+   # edit .env with your Airia API URL/key and your victim machine's IP
+   ```
+5. Run the capture script on the victim VM:
+   ```bash
+   sudo python3 soc_capture.py
+   ```
+6. From the attacker VM, generate traffic toward the victim, e.g.:
+   ```bash
+   ping -c 60 <victim_ip>
+   ```
+7. Watch the victim VM's terminal — once the packet threshold is crossed, it builds the alert and prints Airia's triage response.
 
 ---
 
@@ -158,3 +187,5 @@ GPT-5 Nano was added to the Airia project as the agent's reasoning model:
 - No alerting channel yet for the AI's output (Slack/email/Telegram webhook would close the loop).
 - **Planned iteration:** swap the custom Python detector for **Wazuh**, and have Airia consume Wazuh's alert webhook/API directly — closer to how this would actually be deployed in a SOC.
 - Capture and publish a real end-to-end run (screenshot of the attack, the generated alert, and Airia's actual response) for stronger proof in the portfolio.
+
+---
